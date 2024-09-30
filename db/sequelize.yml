@@ -1,0 +1,7 @@
+dbname: saydahub
+username: postgres
+password: theFirst123
+params:
+  dialect: postgres
+  host: localhost
+  port: 5432

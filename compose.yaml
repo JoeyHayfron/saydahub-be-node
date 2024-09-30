@@ -1,0 +1,54 @@
+services:
+  saydahub-db:
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=saydahub
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 5432
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  saydahub-pg4:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=catsarecool
+    ports:
+      - 5050:80
+
+  saydahub-be:
+    build:
+      context: .
+      target: dev
+    environment:
+      NODE_ENV: production
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
+      POSTGRES_DB: saydahub
+    ports:
+      - 3000:3000
+      - 9229:9229
+    depends_on:
+      saydahub-db:
+        condition: service_healthy
+    restart: "always"
+    secrets:
+      - db-password
+    # volumes:
+    #   - .:/usr/src/app
+
+volumes:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt

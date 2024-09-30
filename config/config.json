@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "theFirst123",
+    "database": "saydahub",
+    "host": "saydahub-db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "theFirst123",
+    "database": "saydahub",
+    "host": "saydahub-db",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "theFirst123",
+    "database": "saydahub",
+    "host": "saydahub-db",
+    "dialect": "postgres"
+  }
+}
